@@ -1,30 +1,26 @@
-import { useState } from 'react';
-import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import { APIProvider, Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { useDebounceCallback } from 'usehooks-ts';
 import useAdds from '../../hooks/useAdds';
+import Markers from '../Markers/Markers';
 
 const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
 
 export default function BigMap() {
-  const { adds, coordinatesHandler } = useAdds();
-  const [markers] = useState(adds);
+  const { coordinatesHandler } = useAdds();
 
-  const handleBoundsChanged = (event: any) => {
-    coordinatesHandler({
-      minLat: event.detail.bounds.north,
-      maxLat: event.detail.bounds.south,
-      minLon: event.detail.bounds.west,
-      maxLon: event.detail.bounds.east,
-    });
+  const handleBoundsChanged = (event: MapCameraChangedEvent) => {
+    if (coordinatesHandler) {
+      coordinatesHandler({
+        minLat: event.detail.bounds.south,
+        maxLat: event.detail.bounds.north,
+        minLon: event.detail.bounds.west,
+        maxLon: event.detail.bounds.east,
+      });
+    }
   };
 
   const debouncedHandleBoundsChanged = useDebounceCallback(handleBoundsChanged, 500);
 
-  console.log(markers);
-
-  const clickHandler = (event: any) => {
-    console.log('Click:', event.detail.latLng);
-  };
   return (
     <div style={{ width: '100%', height: '100%' }}>
       <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''}>
@@ -34,11 +30,13 @@ export default function BigMap() {
           defaultZoom={3}
           gestureHandling="greedy"
           disableDefaultUI
+          mapId="<Your custom MapId here>"
           onBoundsChanged={(e) => {
             debouncedHandleBoundsChanged(e);
           }}
-          onClick={clickHandler}
-        />
+        >
+          <Markers />
+        </Map>
       </APIProvider>
     </div>
   );

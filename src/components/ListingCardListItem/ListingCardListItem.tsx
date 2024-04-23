@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import placeholderImage from '../../assets/placeholder-image.jpeg';
-import * as S from './AddCardListItem.styled';
-import useAdds from '../../hooks/useAdds';
+import * as S from './ListingCardListItem.styled';
+import { useListings } from '../../hooks';
 
 export default function AddCardListItem({ name, id, description, address, price, image }: any) {
   const [imageUrl, setImageUrl] = useState(image || placeholderImage);
 
-  const { currentAddHandler } = useAdds();
+  const { currentListingHandler } = useListings();
 
   return (
     <S.Wrapper
       onClick={() => {
-        currentAddHandler(id);
+        currentListingHandler(id);
       }}
     >
       <S.ImageContainer>

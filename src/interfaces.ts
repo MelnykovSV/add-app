@@ -1,4 +1,4 @@
-interface IAddData {
+interface IListingData {
   name: string;
   description: string;
   address: string;
@@ -8,10 +8,10 @@ interface IAddData {
   lon: number;
 }
 
-export interface IAddDBData extends IAddData {
+export interface IListingDBData extends IListingData {
   _id: string;
 }
 
-export interface IAddClientData extends IAddData {
+export interface IListingClientData extends IListingData {
   id: string;
 }

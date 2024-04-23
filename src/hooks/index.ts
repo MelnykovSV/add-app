@@ -1,5 +1,3 @@
-import useAdds from './useAdds';
+import useListings from './useListings';
 
-export default {
-  useAdds,
-};
+export { useListings };

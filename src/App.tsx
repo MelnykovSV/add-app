@@ -1,7 +1,7 @@
 import { ModernNormalize } from 'emotion-modern-normalize';
-import { AddsProvider } from './contextProviders/AddsProvider';
+import { AddsProvider } from './contextProviders/ListingsProvider';
 import BigMap from './components/BigMap/BigMap';
-import AddCardList from './components/AddCardList/AddCardList';
+import AddCardList from './components/ListingCardList/ListingCardList';
 import * as S from './App.styled';
 import './App.css';
 

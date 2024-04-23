@@ -1,13 +1,13 @@
 import { APIProvider, Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { useDebounceCallback } from 'usehooks-ts';
-import useAdds from '../../hooks/useAdds';
+import { useListings } from '../../hooks';
 import Markers from '../Markers/Markers';
 import * as S from './BigMap.styled';
 
 const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
 
 export default function BigMap() {
-  const { coordinatesHandler, currentAddHandler } = useAdds();
+  const { coordinatesHandler, currentListingHandler } = useListings();
 
   const handleBoundsChanged = (event: MapCameraChangedEvent) => {
     if (coordinatesHandler) {
@@ -36,7 +36,7 @@ export default function BigMap() {
             debouncedHandleBoundsChanged(e);
           }}
           onClick={() => {
-            currentAddHandler(null);
+            currentListingHandler(null);
           }}
         >
           <Markers />

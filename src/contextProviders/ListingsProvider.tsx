@@ -1,6 +1,6 @@
 import { ReactElement, createContext, useState, useCallback, useMemo, useEffect } from 'react';
 import axios from 'axios';
-import { IAddClientData, IAddDBData } from '../interfaces';
+import { IListingClientData, IListingDBData } from '../interfaces';
 
 interface IBorderCoordinates {
   minLat: number | null;
@@ -9,11 +9,11 @@ interface IBorderCoordinates {
   maxLon: number | null;
 }
 
-interface IAddsContext {
-  adds: any[];
+interface IListingsContext {
+  listings: any[];
   coordinatesHandler: (coordinatesData: IBorderCoordinates) => void;
   isLoading: boolean;
-  currentAdd: {
+  currentListing: {
     id: string;
     name: string;
     description: string;
@@ -23,20 +23,20 @@ interface IAddsContext {
     lat: number;
     lon: number;
   } | null;
-  currentAddHandler: (addId: string | null) => void;
+  currentListingHandler: (addId: string | null) => void;
 }
 
-interface IAddsProviderProps {
+interface IListingsProviderProps {
   children: ReactElement | ReactElement[];
 }
 
-export const AddsContext = createContext<IAddsContext>({} as IAddsContext);
+export const ListingsContext = createContext<IListingsContext>({} as IListingsContext);
 
-export function AddsProvider({ children }: IAddsProviderProps) {
-  const [adds, setAdds] = useState<IAddDBData[]>([]);
+export function ListingsProvider({ children }: IListingsProviderProps) {
+  const [listings, setListings] = useState<IListingDBData[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [currentAdd, setCurrentAdd] = useState<null | IAddClientData>(null);
+  const [currentListing, setCurrentListing] = useState<null | IListingClientData>(null);
   const [coordinates, setCoodinates] = useState<IBorderCoordinates>({
     minLat: null,
     maxLat: null,
@@ -52,10 +52,10 @@ export function AddsProvider({ children }: IAddsProviderProps) {
         setIsLoading(true);
         try {
           const response = await axios.get(
-            `https://add-app-backend-w6gc.onrender.com/adds?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}`,
+            `https://listings-app-backend-w6gc.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}`,
           );
 
-          setAdds(response.data.data.adds);
+          setListings(response.data.data.listings);
           setIsLoading(false);
         } catch (error) {
           console.log(error);
@@ -65,18 +65,18 @@ export function AddsProvider({ children }: IAddsProviderProps) {
     })();
   }, [coordinates]);
 
-  const currentAddHandler = useCallback(
-    (addId: string | null) => {
-      const pickedAdd = adds.find(({ _id }) => _id === addId);
+  const currentListingHandler = useCallback(
+    (listingId: string | null) => {
+      const pickedListing = listings.find(({ _id }) => _id === listingId);
 
-      if (!addId || !pickedAdd) {
-        setCurrentAdd(null);
+      if (!listingId || !pickedListing) {
+        setCurrentListing(null);
         return;
       }
 
-      setCurrentAdd({ ...pickedAdd, id: addId });
+      setCurrentListing({ ...pickedListing, id: listingId });
     },
-    [adds],
+    [listings],
   );
 
   const coordinatesHandler = useCallback((coordinatesData: IBorderCoordinates) => {
@@ -84,9 +84,9 @@ export function AddsProvider({ children }: IAddsProviderProps) {
   }, []);
 
   const contextValue = useMemo(
-    () => ({ adds, coordinatesHandler, isLoading, currentAdd, currentAddHandler }),
-    [adds, coordinatesHandler, currentAdd, isLoading, currentAddHandler],
+    () => ({ listings, coordinatesHandler, isLoading, currentListing, currentListingHandler }),
+    [listings, coordinatesHandler, currentListing, isLoading, currentListingHandler],
   );
 
-  return <AddsContext.Provider value={contextValue}>{children}</AddsContext.Provider>;
+  return <ListingsContext.Provider value={contextValue}>{children}</ListingsContext.Provider>;
 }

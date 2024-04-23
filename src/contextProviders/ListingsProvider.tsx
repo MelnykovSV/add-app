@@ -52,7 +52,7 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
         setIsLoading(true);
         try {
           const response = await axios.get(
-            `https://listings-app-backend-w6gc.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}`,
+            `https://listings-app-backend.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}`,
           );
 
           setListings(response.data.data.listings);

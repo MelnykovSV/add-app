@@ -1,5 +1,5 @@
 import { ModernNormalize } from 'emotion-modern-normalize';
-import { AddsProvider } from './contextProviders/ListingsProvider';
+import { ListingsProvider } from './contextProviders/ListingsProvider';
 import BigMap from './components/BigMap/BigMap';
 import AddCardList from './components/ListingCardList/ListingCardList';
 import * as S from './App.styled';
@@ -7,7 +7,7 @@ import './App.css';
 
 function App() {
   return (
-    <AddsProvider>
+    <ListingsProvider>
       <S.Wrapper>
         <ModernNormalize />
         <S.Header>
@@ -19,7 +19,7 @@ function App() {
           <AddCardList />
         </S.Main>
       </S.Wrapper>
-    </AddsProvider>
+    </ListingsProvider>
   );
 }
 

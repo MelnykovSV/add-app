@@ -7,7 +7,7 @@ import * as S from './BigMap.styled';
 const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
 
 export default function BigMap() {
-  const { coordinatesHandler } = useAdds();
+  const { coordinatesHandler, currentAddHandler } = useAdds();
 
   const handleBoundsChanged = (event: MapCameraChangedEvent) => {
     if (coordinatesHandler) {
@@ -34,6 +34,9 @@ export default function BigMap() {
           mapId="<Your custom MapId here>"
           onBoundsChanged={(e) => {
             debouncedHandleBoundsChanged(e);
+          }}
+          onClick={() => {
+            currentAddHandler(null);
           }}
         >
           <Markers />

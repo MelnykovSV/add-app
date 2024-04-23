@@ -2,6 +2,7 @@ import { APIProvider, Map, MapCameraChangedEvent } from '@vis.gl/react-google-ma
 import { useDebounceCallback } from 'usehooks-ts';
 import useAdds from '../../hooks/useAdds';
 import Markers from '../Markers/Markers';
+import * as S from './BigMap.styled';
 
 const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
 
@@ -22,10 +23,10 @@ export default function BigMap() {
   const debouncedHandleBoundsChanged = useDebounceCallback(handleBoundsChanged, 500);
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <S.Wrapper style={{ width: '100%', height: '100%' }}>
       <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''}>
         <Map
-          style={{ width: '100%', height: '700px' }}
+          style={{ width: '100%', height: '100%' }}
           defaultCenter={{ lat: 22.54992, lng: 0 }}
           defaultZoom={3}
           gestureHandling="greedy"
@@ -38,6 +39,6 @@ export default function BigMap() {
           <Markers />
         </Map>
       </APIProvider>
-    </div>
+    </S.Wrapper>
   );
 }

@@ -7,7 +7,11 @@ export default function AddCardListItem({ name, id, description, address, price,
 
   console.log(id);
   return (
-    <S.Wrapper>
+    <S.Wrapper
+      onClick={() => {
+        console.log('click');
+      }}
+    >
       <S.ImageContainer>
         <img
           src={imageUrl}

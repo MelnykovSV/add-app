@@ -23,7 +23,7 @@ interface IListingsContext {
     lat: number;
     lon: number;
   } | null;
-  currentListingHandler: (addId: string | null) => void;
+  currentListingHandler: (listingId: string | null) => void;
 }
 
 interface IListingsProviderProps {

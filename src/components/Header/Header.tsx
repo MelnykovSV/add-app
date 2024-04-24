@@ -28,7 +28,7 @@ export default function Header() {
         aria-describedby="modal-modal-description"
       >
         <S.ModalBody>
-          <ListingForm />
+          <ListingForm modalCloseHandler={modalCloseHandler} />
         </S.ModalBody>
       </Modal>
     </S.Wrapper>

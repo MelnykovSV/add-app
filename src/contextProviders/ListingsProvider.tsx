@@ -24,6 +24,7 @@ interface IListingsContext {
     lon: number;
   } | null;
   currentListingHandler: (listingId: string | null) => void;
+  refreshListingsData: () => void;
 }
 
 interface IListingsProviderProps {
@@ -43,6 +44,25 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
     minLon: null,
     maxLon: null,
   });
+
+  const refreshListingsData = useCallback(async () => {
+    const { minLat, maxLat, minLon, maxLon } = coordinates;
+
+    if (minLat && maxLat && minLon && maxLon) {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `https://listings-app-backend.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}`,
+        );
+
+        setListings(response.data.data.listings);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    }
+  }, [coordinates]);
 
   useEffect(() => {
     const { minLat, maxLat, minLon, maxLon } = coordinates;
@@ -84,8 +104,22 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
   }, []);
 
   const contextValue = useMemo(
-    () => ({ listings, coordinatesHandler, isLoading, currentListing, currentListingHandler }),
-    [listings, coordinatesHandler, currentListing, isLoading, currentListingHandler],
+    () => ({
+      listings,
+      coordinatesHandler,
+      isLoading,
+      currentListing,
+      currentListingHandler,
+      refreshListingsData,
+    }),
+    [
+      listings,
+      coordinatesHandler,
+      isLoading,
+      currentListing,
+      currentListingHandler,
+      refreshListingsData,
+    ],
   );
 
   return <ListingsContext.Provider value={contextValue}>{children}</ListingsContext.Provider>;

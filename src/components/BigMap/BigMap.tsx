@@ -27,11 +27,11 @@ export default function BigMap() {
       <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''} libraries={['places']} language="en">
         <Map
           style={{ width: '100%', height: '100%' }}
-          defaultCenter={{ lat: 22.54992, lng: 0 }}
-          defaultZoom={3}
+          defaultCenter={{ lat: 50.4, lng: 30.5 }}
+          defaultZoom={10}
           gestureHandling="greedy"
           disableDefaultUI
-          mapId="<Your custom MapId here>"
+          mapId="big-map"
           onBoundsChanged={(e) => {
             debouncedHandleBoundsChanged(e);
           }}

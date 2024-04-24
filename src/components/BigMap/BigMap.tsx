@@ -24,7 +24,7 @@ export default function BigMap() {
 
   return (
     <S.Wrapper style={{ width: '100%', height: '100%' }}>
-      <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''}>
+      <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''} libraries={['places']} language="en">
         <Map
           style={{ width: '100%', height: '100%' }}
           defaultCenter={{ lat: 22.54992, lng: 0 }}

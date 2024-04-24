@@ -3,5 +3,7 @@ import Markers from './Markers/Markers';
 import AddCardList from './ListingCardList/ListingCardList';
 import AddCardListItem from './ListingCardListItem/ListingCardListItem';
 import Loader from './Loader/Loader';
+import Header from './Header/Header';
+import ListingForm from './ListingForm/ListingForm';
 
-export default { BigMap, Markers, AddCardList, AddCardListItem, Loader };
+export { BigMap, Markers, AddCardList, AddCardListItem, Loader, Header, ListingForm };

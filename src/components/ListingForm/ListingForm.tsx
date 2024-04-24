@@ -134,14 +134,17 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
         handleSubmit(onSubmit)();
       }}
     >
-      <input type="text" placeholder="name" {...register('name')} />
-      <p>{errors.name && errors.name.message}</p>
-      <input type="text" placeholder="description" {...register('description')} />
-      <p>{errors.description && errors.description.message}</p>
-      <input type="number" placeholder="price" {...register('price')} />
-      <p>{errors.price && errors.price.message}</p>
-      <input type="file" {...register('image')} />
-      <p>{errors.image && errors.image.message}</p>
+      <S.TextInput type="text" placeholder="name" {...register('name')} />
+      <S.ErrorField>{errors.name && errors.name.message}</S.ErrorField>
+      <S.TextInput type="text" placeholder="description" {...register('description')} />
+      <S.ErrorField>{errors.description && errors.description.message}</S.ErrorField>
+      <S.TextInput type="number" placeholder="price" {...register('price')} />
+      <S.ErrorField>{errors.price && errors.price.message}</S.ErrorField>
+
+      <S.Label htmlFor="image">Upload listing image:</S.Label>
+      <S.TextInput id="image" type="file" {...register('image')} placeholder="123" />
+
+      <S.ErrorField>{errors.image && errors.image.message}</S.ErrorField>
 
       <GooglePlacesAutocomplete
         apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''}
@@ -152,14 +155,14 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
           },
         }}
       />
+      <S.ErrorField>{addressError}</S.ErrorField>
 
       <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''} libraries={['places']} language="en">
         <Map
-          style={{ width: '300px', height: '300px' }}
+          style={{ width: '100%', height: '300px', marginBottom: '15px' }}
           defaultCenter={{ lat: centerLat, lng: centerLng }}
           key={mapKey}
           defaultZoom={5}
-          // center={{ lat: 50, lng: 30 }}
           gestureHandling="greedy"
           disableDefaultUI
           mapId="small-map"
@@ -199,10 +202,9 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
         </Map>
       </APIProvider>
 
-      <p>{addressError}</p>
-
-      <button type="submit">Submit</button>
-      <p>{isLoading ? 'Loading...' : null}</p>
+      <S.Button className={isLoading ? 'loading' : ''} type="submit">
+        Submit
+      </S.Button>
     </S.Wrapper>
   );
 }

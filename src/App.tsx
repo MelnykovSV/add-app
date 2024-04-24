@@ -3,7 +3,6 @@ import { ListingsProvider } from './contextProviders/ListingsProvider';
 import { BigMap, Header } from './components';
 import AddCardList from './components/ListingCardList/ListingCardList';
 import * as S from './App.styled';
-import './App.css';
 
 function App() {
   return (

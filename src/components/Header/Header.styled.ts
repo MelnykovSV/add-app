@@ -17,8 +17,12 @@ export const ModalBody = styled(Box)`
   width: 400;
   background-color: #fff;
   border: 2px solid #000;
-  width: 600px;
-  height: 600px;
+  width: min(calc(100% - 20px), 700px);
+  padding: 15px;
+
+  h2 {
+    text-align: center;
+  }
 
   input: {
     z-index: 100;

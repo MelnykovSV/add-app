@@ -36,7 +36,18 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
   const [lat, setLat] = useState<string | null>(null);
   const [lon, setLon] = useState<string | null>(null);
 
+  const [centerLat, setCenterLat] = useState<number>(50); // Default to 50
+  const [centerLng, setCenterLng] = useState<number>(30); // Default to 30
+
+  const [mapKey, setMapKey] = useState(0);
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const updateCenter = (mapCenterLat: number, mapCenterLng: number) => {
+    setCenterLat(mapCenterLat);
+    setCenterLng(mapCenterLng);
+    setMapKey((prevValue) => prevValue + 1);
+  };
 
   const onSubmit = async (data: {
     name: string;
@@ -106,6 +117,7 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
       if (fetchedLat && fetchedLon) {
         setLat(fetchedLat.toString());
         setLon(fetchedLon.toString());
+        updateCenter(fetchedLat, fetchedLon);
         setAddressError(null);
       }
     }
@@ -144,8 +156,10 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
       <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''} libraries={['places']} language="en">
         <Map
           style={{ width: '300px', height: '300px' }}
-          defaultCenter={{ lat: 50, lng: 30 }}
+          defaultCenter={{ lat: centerLat, lng: centerLng }}
+          key={mapKey}
           defaultZoom={5}
+          // center={{ lat: 50, lng: 30 }}
           gestureHandling="greedy"
           disableDefaultUI
           mapId="small-map"

@@ -6,6 +6,10 @@ import * as S from './BigMap.styled';
 
 const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
 
+console.log(process.env);
+
+console.log(VITE_APP_GOOGLE_MAPS_KEY);
+
 export default function BigMap() {
   const { coordinatesHandler, currentListingHandler } = useListings();
 

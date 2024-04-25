@@ -51,7 +51,7 @@ To get started with the Listings App, follow these steps:
 git clone https://github.com/MelnykovSV/listings-app.git
 ```
 
-2. Install dependencies using npm or yarn:
+2. Install dependencies using npm:
 
 ```bash
 npm install
@@ -65,8 +65,7 @@ npm run dev
 
 ```
 
-4. Please include the .env file in the root directory with the following contents:
+4. Include the .env file in the root directory with the following contents:
    VITE_APP_GOOGLE_MAPS_KEY = YourValidGoogleMapsApiKey
 
-5) You can access the application in your web browser by following the link provided, such as
-   http://localhost:5173.
+5) You can access the application in your web browser at http://localhost:5173.

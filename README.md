@@ -66,6 +66,7 @@ npm run dev
 ```
 
 4. Include the .env file in the root directory with the following contents:
+
    VITE_APP_GOOGLE_MAPS_KEY = YourValidGoogleMapsApiKey
 
 5) You can access the application in your web browser at http://localhost:5173.

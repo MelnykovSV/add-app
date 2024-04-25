@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     define: {
-      'process.env.VITE_APP_GOOGLE_MAPS_KEY': JSON.stringify(env.VITE_APP_GOOGLE_MAPS_KEY),
+      'process.env.VITE_APP_GOOGLE_MAPS_KEY': JSON.stringify(process.env.VITE_APP_GOOGLE_MAPS_KEY),
     },
     plugins: [react()],
   };

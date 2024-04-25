@@ -97,4 +97,5 @@ export const SearchbarIcon = styled(FaSearch)`
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
+  pointer-events: none;
 `;

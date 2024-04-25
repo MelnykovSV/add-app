@@ -6,14 +6,13 @@ import GooglePlacesAutocomplete, {
   geocodeByLatLng,
 } from 'react-google-places-autocomplete';
 import { APIProvider, Map, AdvancedMarker, MapMouseEvent } from '@vis.gl/react-google-maps';
-import axios from 'axios';
 import { Option } from 'react-google-places-autocomplete/build/types';
 import { SingleValue } from 'react-select';
-import { toast } from 'react-toastify';
 import * as S from './ListingForm.styled';
 import { listingFormValidation } from '../../validation';
 import getErrorMessage from '../../helpers/getErrorMessage';
 import { useListings } from '../../hooks';
+import { createNewListing } from '../../dataFetching';
 
 const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
 
@@ -65,23 +64,12 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
       formData.append('lon', lon);
       const imageFile = new File([data.image[0]], data.image[0].name, { type: data.image[0].type });
       formData.append('image', imageFile);
-
-      try {
-        setIsLoading(true);
-
-        const response = await axios.post(
-          'https://listings-app-backend.onrender.com/listings',
-          formData,
-        );
-
-        setIsLoading(false);
-        if (response.status === 200) {
-          refreshListingsData();
-          modalCloseHandler();
-        }
-      } catch (error) {
-        toast.error(getErrorMessage(error));
-        setIsLoading(false);
+      setIsLoading(true);
+      const response = await createNewListing(formData);
+      setIsLoading(false);
+      if (typeof response !== 'string' && response?.status === 200) {
+        refreshListingsData();
+        modalCloseHandler();
       }
     }
   };
@@ -164,7 +152,7 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
       <S.ErrorField>{errors.name && errors.name.message}</S.ErrorField>
       <S.TextInput type="text" placeholder="description" {...register('description')} />
       <S.ErrorField>{errors.description && errors.description.message}</S.ErrorField>
-      <S.TextInput type="number" placeholder="price" {...register('price')} />
+      <S.NumberInput type="number" placeholder="price" {...register('price')} />
       <S.ErrorField>{errors.price && errors.price.message}</S.ErrorField>
       <S.Label htmlFor="image">Upload listing image:</S.Label>
       <S.TextInput id="image" type="file" {...register('image')} placeholder="123" />
@@ -179,20 +167,29 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
         }}
       />
       <S.ErrorField>{addressError}</S.ErrorField>
-      <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY!} libraries={['places']} language="en">
-        <Map
-          style={{ width: '100%', height: '300px', marginBottom: '15px' }}
-          defaultCenter={{ lat: centerLat, lng: centerLng }}
-          key={mapKey}
-          defaultZoom={5}
-          gestureHandling="greedy"
-          disableDefaultUI
-          mapId="small-map"
-          onClick={smallMapClickHandler}
-        >
-          {lat && lon ? <AdvancedMarker position={{ lat: Number(lat), lng: Number(lon) }} /> : null}
-        </Map>
-      </APIProvider>
+      <S.MapContainer>
+        <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY!} libraries={['places']} language="en">
+          <Map
+            style={{ width: '100%', height: '300px', marginBottom: '15px' }}
+            defaultCenter={{ lat: centerLat, lng: centerLng }}
+            key={mapKey}
+            defaultZoom={5}
+            gestureHandling="greedy"
+            disableDefaultUI
+            mapId="small-map"
+            onClick={smallMapClickHandler}
+          >
+            {lat && lon && <AdvancedMarker position={{ lat: Number(lat), lng: Number(lon) }} />}
+          </Map>
+        </APIProvider>
+
+        {VITE_APP_GOOGLE_MAPS_KEY ? null : (
+          <S.ErrorMessage>
+            Error: Google Maps API key is missing. Please provide an API key.
+          </S.ErrorMessage>
+        )}
+      </S.MapContainer>
+
       <S.Button className={isLoading ? 'loading' : ''} type="submit">
         Submit
       </S.Button>

@@ -30,9 +30,14 @@ export const ModalBody = styled(Box)`
   transform: translate(-50%, -50%);
   width: 400;
   background-color: #fff;
-  border: 2px solid #000;
+  border: 1px solid #000;
+  border-radius: 10px;
   width: min(calc(100% - 20px), 700px);
   padding: 15px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
 
   h2 {
     text-align: center;

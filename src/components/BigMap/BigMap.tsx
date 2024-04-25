@@ -20,7 +20,7 @@ export default function BigMap() {
     }
   };
 
-  const debouncedHandleBoundsChanged = useDebounceCallback(handleBoundsChanged, 500);
+  const debouncedHandleBoundsChanged = useDebounceCallback(handleBoundsChanged, 300);
 
   return (
     <S.Wrapper style={{ width: '100%', height: '100%' }}>
@@ -42,6 +42,12 @@ export default function BigMap() {
           <Markers />
         </Map>
       </APIProvider>
+
+      {VITE_APP_GOOGLE_MAPS_KEY ? null : (
+        <S.ErrorMessage>
+          Error: Google Maps API key is missing. Please provide an API key.
+        </S.ErrorMessage>
+      )}
     </S.Wrapper>
   );
 }

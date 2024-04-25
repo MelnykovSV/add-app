@@ -39,6 +39,9 @@ export const Title = styled.h3`
 export const Paragraph = styled.p`
   margin: 0;
   margin-bottom: 6px;
+  max-height: 72px;
+
+  overflow-y: auto;
 `;
 
 export const Address = styled.p`

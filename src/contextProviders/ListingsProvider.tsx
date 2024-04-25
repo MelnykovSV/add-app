@@ -1,8 +1,6 @@
 import { ReactElement, createContext, useState, useCallback, useMemo, useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import getErrorMessage from '../helpers/getErrorMessage';
 import { IListingClientData, IListingDBData } from '../interfaces';
+import { fetchListingsData } from '../dataFetching';
 
 interface IBorderCoordinates {
   minLat: number | null;
@@ -41,7 +39,7 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [currentListing, setCurrentListing] = useState<null | IListingClientData>(null);
-  const [coordinates, setCoodinates] = useState<IBorderCoordinates>({
+  const [coordinates, setCoordinates] = useState<IBorderCoordinates>({
     minLat: null,
     maxLat: null,
     minLon: null,
@@ -59,19 +57,15 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
 
     if (minLat && maxLat && minLon && maxLon) {
       setIsLoading(true);
-      try {
-        const response = await axios.get(
-          `https://listings-app-backend.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}${
-            searchQuery ? `&searchQuery=${searchQuery}` : ''
-          }`,
-        );
-
-        setListings(response.data.data.listings);
-        setIsLoading(false);
-      } catch (error) {
-        toast.error(getErrorMessage(error));
-        setIsLoading(false);
-      }
+      const fetchedListings = await fetchListingsData({
+        minLat,
+        maxLat,
+        minLon,
+        maxLon,
+        searchQuery,
+      });
+      setListings(fetchedListings);
+      setIsLoading(false);
     }
   }, [coordinates, searchQuery]);
 
@@ -81,19 +75,15 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
     (async () => {
       if (minLat && maxLat && minLon && maxLon) {
         setIsLoading(true);
-        try {
-          const response = await axios.get(
-            `https://listings-app-backend.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}${
-              searchQuery ? `&searchQuery=${searchQuery}` : ''
-            }`,
-          );
-
-          setListings(response.data.data.listings);
-          setIsLoading(false);
-        } catch (error) {
-          toast.error(getErrorMessage(error));
-          setIsLoading(false);
-        }
+        const fetchedListings = await fetchListingsData({
+          minLat,
+          maxLat,
+          minLon,
+          maxLon,
+          searchQuery,
+        });
+        setListings(fetchedListings);
+        setIsLoading(false);
       }
     })();
   }, [coordinates, searchQuery]);
@@ -113,7 +103,7 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
   );
 
   const coordinatesHandler = useCallback((coordinatesData: IBorderCoordinates) => {
-    setCoodinates(coordinatesData);
+    setCoordinates(coordinatesData);
   }, []);
 
   const contextValue = useMemo(

@@ -1,5 +1,4 @@
 import { Pin, AdvancedMarker } from '@vis.gl/react-google-maps';
-
 import { useListings } from '../../hooks';
 import { IListingDBData } from '../../interfaces';
 

@@ -4,7 +4,7 @@ export const listingFormValidation = Yup.object({
   name: Yup.string()
     .required('Please enter listing name')
     .min(3, 'Too short!')
-    .max(16, 'Too long!'),
+    .max(30, 'Too long!'),
   price: Yup.number()
     .transform((value, originalValue) => (originalValue === '' ? null : value))
     .required('Please enter listing price')

@@ -10,11 +10,11 @@ export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { searchQueryHandler } = useListings();
   const debouncedSearchQueryHandler = useDebounceCallback(searchQueryHandler, 500);
-  const modalOpenHandler = () => {
+  const openModal = () => {
     setIsModalOpen(true);
   };
 
-  const modalCloseHandler = () => {
+  const closeModal = () => {
     setIsModalOpen(false);
   };
 
@@ -31,18 +31,18 @@ export default function Header() {
         <S.SearchbarIcon />
       </S.SearchbarContainer>
 
-      <S.Button type="button" onClick={modalOpenHandler}>
+      <S.Button type="button" onClick={openModal}>
         Create listing <FaPlus />
       </S.Button>
       <Modal
         open={isModalOpen}
-        onClose={modalCloseHandler}
+        onClose={closeModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <S.ModalBody>
           <h2>Provide some listing information</h2>
-          <ListingForm modalCloseHandler={modalCloseHandler} />
+          <ListingForm modalCloseHandler={closeModal} />
         </S.ModalBody>
       </Modal>
     </S.Wrapper>

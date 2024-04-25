@@ -1,13 +1,36 @@
 import styled from '@emotion/styled';
 
-export const Wrapper = styled.form``;
+export const Wrapper = styled.form`
+`;
 
 export const TextInput = styled.input`
   border-radius: 4px;
   border: 1px solid rgb(204, 204, 204);
   width: 100%;
-  padding: 8px;
+  line-height: 1.5;
+  padding: 6px 8px;
   outline-color: #2684ff;
+`;
+
+export const NumberInput = styled.input`
+  border-radius: 4px;
+  border: 1px solid rgb(204, 204, 204);
+  width: 100%;
+  line-height: 1.5;
+  padding: 6px 8px;
+  outline-color: #2684ff;
+
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const Label = styled.label`
@@ -57,4 +80,19 @@ export const Button = styled.button`
 
     box-shadow: 10px 5px 5px 10px 200, 200;
   }
+`;
+
+export const MapContainer = styled.div`
+  position: relative;
+`;
+
+export const ErrorMessage = styled.p`
+  position: absolute;
+  margin: 0;
+  top: 10px;
+  left: 20px;
+  z-index: 100;
+  font-size: 18px;
+  font-weight: 700;
+  color: red;
 `;

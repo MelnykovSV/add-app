@@ -14,7 +14,7 @@ import getErrorMessage from '../../helpers/getErrorMessage';
 import { useListings } from '../../hooks';
 import { createNewListing } from '../../dataFetching';
 
-const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
+const { VITE_APP_GOOGLE_MAPS_KEY } = import.meta.env;
 
 interface IListingFormProps {
   modalCloseHandler: () => void;

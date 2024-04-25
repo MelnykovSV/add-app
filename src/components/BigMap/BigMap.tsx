@@ -4,8 +4,7 @@ import { useListings } from '../../hooks';
 import Markers from '../Markers/Markers';
 import * as S from './BigMap.styled';
 
-const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
-
+const { VITE_APP_GOOGLE_MAPS_KEY } = import.meta.env;
 
 export default function BigMap() {
   const { coordinatesHandler, currentListingHandler } = useListings();

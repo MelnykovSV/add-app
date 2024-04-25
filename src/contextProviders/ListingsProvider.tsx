@@ -25,6 +25,7 @@ interface IListingsContext {
   } | null;
   currentListingHandler: (listingId: string | null) => void;
   refreshListingsData: () => void;
+  searchQueryHandler: (query: string) => void;
 }
 
 interface IListingsProviderProps {
@@ -45,6 +46,13 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
     maxLon: null,
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const searchQueryHandler = (query: string) => {
+    setSearchQuery(query);
+    console.log(query);
+  };
+
   const refreshListingsData = useCallback(async () => {
     const { minLat, maxLat, minLon, maxLon } = coordinates;
 
@@ -52,7 +60,9 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `https://listings-app-backend.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}`,
+          `https://listings-app-backend.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}${
+            searchQuery ? `&searchQuery=${searchQuery}` : ''
+          }`,
         );
 
         setListings(response.data.data.listings);
@@ -62,7 +72,7 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
         setIsLoading(false);
       }
     }
-  }, [coordinates]);
+  }, [coordinates, searchQuery]);
 
   useEffect(() => {
     const { minLat, maxLat, minLon, maxLon } = coordinates;
@@ -72,7 +82,9 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
         setIsLoading(true);
         try {
           const response = await axios.get(
-            `https://listings-app-backend.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}`,
+            `https://listings-app-backend.onrender.com/listings?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}${
+              searchQuery ? `&searchQuery=${searchQuery}` : ''
+            }`,
           );
 
           setListings(response.data.data.listings);
@@ -83,7 +95,7 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
         }
       }
     })();
-  }, [coordinates]);
+  }, [coordinates, searchQuery]);
 
   const currentListingHandler = useCallback(
     (listingId: string | null) => {
@@ -111,6 +123,7 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
       currentListing,
       currentListingHandler,
       refreshListingsData,
+      searchQueryHandler,
     }),
     [
       listings,

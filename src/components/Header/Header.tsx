@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import Modal from '@mui/material/Modal';
+import { useDebounceCallback } from 'usehooks-ts';
 import { FaPlus } from 'react-icons/fa';
+import { useListings } from '../../hooks';
 import ListingForm from '../ListingForm/ListingForm';
 import * as S from './Header.styled';
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { searchQueryHandler } = useListings();
+
+  const debouncedSearchQueryHandler = useDebounceCallback(searchQueryHandler, 500);
   const modalOpenHandler = () => {
     setIsModalOpen(true);
   };
@@ -16,7 +22,12 @@ export default function Header() {
 
   return (
     <S.Wrapper>
-      <input type="text" />
+      <input
+        type="text"
+        onChange={(e) => {
+          debouncedSearchQueryHandler(e.target.value);
+        }}
+      />
       <S.Button type="button" onClick={modalOpenHandler}>
         Create listing <FaPlus />
       </S.Button>

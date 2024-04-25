@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import TruncateMarkup from 'react-truncate-markup';
 import placeholderImage from '../../assets/placeholder-image.jpeg';
-import * as S from './ListingCardListItem.styled';
+import * as S from './MobileListingCardListItem.styled';
 import { useListings } from '../../hooks';
 
 export default function ListingCardListItem({ name, id, description, address, price, image }: any) {
@@ -25,17 +24,17 @@ export default function ListingCardListItem({ name, id, description, address, pr
         />
       </S.ImageContainer>
 
-      <S.Title>{name} </S.Title>
-      <TruncateMarkup lines={3}>
+      <S.InfoBlock>
+        <S.Title>{name} </S.Title>
         <S.Paragraph>
           {description} test add descriptiontest add descriptiontest add descriptiontest add
           descriptiontest add descriptiontest add descriptiontest add descriptiontest add
           descriptiontest add descriptiontest add description
         </S.Paragraph>
-      </TruncateMarkup>
 
-      <S.Address>{address}</S.Address>
-      <S.Price>{`${price} $`}</S.Price>
+        <S.Address>{address}</S.Address>
+        <S.Price>{`${price} $`}</S.Price>
+      </S.InfoBlock>
     </S.Wrapper>
   );
 }

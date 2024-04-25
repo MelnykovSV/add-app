@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Modal from '@mui/material/Modal';
-
+import { FaPlus } from 'react-icons/fa';
 import ListingForm from '../ListingForm/ListingForm';
 import * as S from './Header.styled';
 
@@ -16,11 +16,10 @@ export default function Header() {
 
   return (
     <S.Wrapper>
-      <p>Searhbar</p>
       <input type="text" />
-      <button type="button" onClick={modalOpenHandler}>
-        Create listing
-      </button>
+      <S.Button type="button" onClick={modalOpenHandler}>
+        Create listing <FaPlus />
+      </S.Button>
       <Modal
         open={isModalOpen}
         onClose={modalCloseHandler}

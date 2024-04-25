@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 
 export const Wrapper = styled.header`
   background-color: rgb(40, 49, 73);
+  display: flex;
+  align-items: center;
   height: 60px;
   p {
     margin: 0;
@@ -26,5 +28,22 @@ export const ModalBody = styled(Box)`
 
   input: {
     z-index: 100;
+  }
+`;
+
+export const Button = styled.button`
+  cursor: pointer;
+  color: #fff;
+  background-color: #13842d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s linear;
+  &:hover {
+    background-color: #085d1c;
   }
 `;

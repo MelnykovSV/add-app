@@ -23,6 +23,7 @@ export default function Header() {
       <S.SearchbarContainer>
         <S.Searchbar
           type="text"
+          id="searchbar"
           placeholder="Search by name and description"
           onChange={(e) => {
             debouncedSearchQueryHandler(e.target.value);

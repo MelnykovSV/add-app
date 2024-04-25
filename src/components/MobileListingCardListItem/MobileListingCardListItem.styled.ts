@@ -65,10 +65,8 @@ export const Address = styled.p`
   margin: 0;
   margin-bottom: 6px;
   font-weight: 600;
-  max-width: 280px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  height: 72px;
+  overflow-y: auto;
 `;
 
 export const Price = styled.p`

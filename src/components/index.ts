@@ -6,6 +6,7 @@ import Loader from './Loader/Loader';
 import Header from './Header/Header';
 import ListingForm from './ListingForm/ListingForm';
 import MobileListingCardListItem from './MobileListingCardListItem/MobileListingCardListItem';
+import ErrorFallback from './ErrorFallback/ErrorFallback';
 
 export {
   BigMap,
@@ -16,4 +17,5 @@ export {
   Header,
   ListingForm,
   MobileListingCardListItem,
+  ErrorFallback,
 };

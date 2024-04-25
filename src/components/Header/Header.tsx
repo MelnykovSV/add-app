@@ -13,6 +13,7 @@ export default function Header() {
 
   const debouncedSearchQueryHandler = useDebounceCallback(searchQueryHandler, 500);
   const modalOpenHandler = () => {
+  
     setIsModalOpen(true);
   };
 

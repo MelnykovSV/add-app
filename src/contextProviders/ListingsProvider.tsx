@@ -1,5 +1,7 @@
 import { ReactElement, createContext, useState, useCallback, useMemo, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import getErrorMessage from '../helpers/getErrorMessage';
 import { IListingClientData, IListingDBData } from '../interfaces';
 
 interface IBorderCoordinates {
@@ -67,7 +69,7 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
         setListings(response.data.data.listings);
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        toast.error(getErrorMessage(error));
         setIsLoading(false);
       }
     }
@@ -89,7 +91,7 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
           setListings(response.data.data.listings);
           setIsLoading(false);
         } catch (error) {
-          console.log(error);
+          toast.error(getErrorMessage(error));
           setIsLoading(false);
         }
       }

@@ -9,10 +9,12 @@ import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 import axios from 'axios';
 import { Option } from 'react-google-places-autocomplete/build/types';
 import { SingleValue } from 'react-select';
+import { toast } from 'react-toastify';
 import * as S from './ListingForm.styled';
 import { listingFormValidation } from '../../validation';
 import getErrorMessage from '../../helpers/getErrorMessage';
 import { useListings } from '../../hooks';
+
 
 const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
 
@@ -83,7 +85,7 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
           modalCloseHandler();
         }
       } catch (error) {
-        console.log(error);
+        toast.error(getErrorMessage(error));
         setIsLoading(false);
       }
     }

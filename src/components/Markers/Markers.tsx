@@ -1,13 +1,14 @@
 import { Pin, AdvancedMarker } from '@vis.gl/react-google-maps';
 
 import { useListings } from '../../hooks';
+import { IListingDBData } from '../../interfaces';
 
 export default function Markers() {
   const { listings, currentListing, currentListingHandler } = useListings();
 
   return (
     <>
-      {listings.map(({ _id, lat, lon }: any) => (
+      {listings.map(({ _id, lat, lon }: IListingDBData) => (
         <AdvancedMarker
           key={_id}
           position={{ lat, lng: lon }}

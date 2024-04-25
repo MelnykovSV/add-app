@@ -6,17 +6,13 @@ export const Wrapper = styled.header`
   background-color: rgb(40, 49, 73);
   padding-left: 15px;
   padding-right: 15px;
-  /* padding-top: 9px;
-  padding-bottom: 9px; */
   height: 112px;
   display: flex;
   flex-direction: column;
-  /* flex-wrap: wrap; */
   justify-content: center;
   column-gap: 20px;
   row-gap: 10px;
   align-items: center;
-  /* height: 60px; */
   p {
     margin: 0;
   }

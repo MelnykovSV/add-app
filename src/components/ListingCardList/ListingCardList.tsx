@@ -5,6 +5,7 @@ import ListingCardListItem from '../ListingCardListItem/ListingCardListItem';
 import MobileListingCardListItem from '../MobileListingCardListItem/MobileListingCardListItem';
 import useListings from '../../hooks/useListings';
 import Loader from '../Loader/Loader';
+import { IListingDBData } from '../../interfaces';
 import 'swiper/css';
 
 export default function ListingCardList() {
@@ -27,7 +28,7 @@ export default function ListingCardList() {
               image={currentListing.image}
             />
           ) : (
-            listings.map(({ name, _id, description, address, price, image }: any) => (
+            listings.map(({ name, _id, description, address, price, image }: IListingDBData) => (
               <ListingCardListItem
                 key={_id}
                 name={name}
@@ -56,7 +57,7 @@ export default function ListingCardList() {
               />
             </SwiperSlide>
           ) : (
-            listings.map(({ name, _id, description, address, price, image }: any) => (
+            listings.map(({ name, _id, description, address, price, image }: IListingDBData) => (
               <SwiperSlide key={_id}>
                 <MobileListingCardListItem
                   name={name}

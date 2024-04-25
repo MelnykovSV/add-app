@@ -5,7 +5,7 @@ import GooglePlacesAutocomplete, {
   geocodeByPlaceId,
   geocodeByLatLng,
 } from 'react-google-places-autocomplete';
-import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
+import { APIProvider, Map, AdvancedMarker, MapMouseEvent } from '@vis.gl/react-google-maps';
 import axios from 'axios';
 import { Option } from 'react-google-places-autocomplete/build/types';
 import { SingleValue } from 'react-select';
@@ -14,7 +14,6 @@ import * as S from './ListingForm.styled';
 import { listingFormValidation } from '../../validation';
 import getErrorMessage from '../../helpers/getErrorMessage';
 import { useListings } from '../../hooks';
-
 
 const { VITE_APP_GOOGLE_MAPS_KEY } = process.env;
 
@@ -34,15 +33,11 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
   const { refreshListingsData } = useListings();
   const [address, setAddress] = useState<SingleValue<Option>>(null);
   const [addressError, setAddressError] = useState<string | null>(null);
-
   const [lat, setLat] = useState<string | null>(null);
   const [lon, setLon] = useState<string | null>(null);
-
-  const [centerLat, setCenterLat] = useState<number>(50); // Default to 50
-  const [centerLng, setCenterLng] = useState<number>(30); // Default to 30
-
+  const [centerLat, setCenterLat] = useState<number>(50);
+  const [centerLng, setCenterLng] = useState<number>(30);
   const [mapKey, setMapKey] = useState(0);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const updateCenter = (mapCenterLat: number, mapCenterLng: number) => {
@@ -94,14 +89,11 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
   const fetchLatLon = async (placeId: string) => {
     try {
       const results = await geocodeByPlaceId(placeId);
-
       const fetchedLat = results[0].geometry.location.lat();
       const fetchedLon = results[0].geometry.location.lng();
-
       return { fetchedLat, fetchedLon };
     } catch (error) {
       setAddressError(getErrorMessage(error));
-
       return { fetchedLat: null, fetchedLon: null };
     }
   };
@@ -125,6 +117,38 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
     }
   };
 
+  const smallMapClickHandler = async (e: MapMouseEvent) => {
+    if (e.detail.latLng?.lat && e.detail.latLng?.lng) {
+      setLat(e.detail.latLng?.lat.toString());
+      setLon(e.detail.latLng?.lng.toString());
+
+      try {
+        const response = await geocodeByLatLng({
+          lat: e.detail.latLng?.lat,
+          lng: e.detail.latLng.lng,
+        });
+
+        const foundPlace =
+          response.find((item) => item.types.includes('premise')) ||
+          response.find((item) => item.types.includes('administrative_area_level_2')) ||
+          response.find((item) => item.types.includes('administrative_area_level_1')) ||
+          response[0];
+
+        setAddress({
+          label: foundPlace.formatted_address || '',
+
+          value: {
+            place_id: foundPlace.place_id || '',
+          },
+        });
+
+        setAddressError(null);
+      } catch (error) {
+        setAddressError(getErrorMessage(error));
+      }
+    }
+  };
+
   return (
     <S.Wrapper
       onSubmit={(e) => {
@@ -142,14 +166,11 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
       <S.ErrorField>{errors.description && errors.description.message}</S.ErrorField>
       <S.TextInput type="number" placeholder="price" {...register('price')} />
       <S.ErrorField>{errors.price && errors.price.message}</S.ErrorField>
-
       <S.Label htmlFor="image">Upload listing image:</S.Label>
       <S.TextInput id="image" type="file" {...register('image')} placeholder="123" />
-
       <S.ErrorField>{errors.image && errors.image.message}</S.ErrorField>
-
       <GooglePlacesAutocomplete
-        apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''}
+        apiKey={VITE_APP_GOOGLE_MAPS_KEY!}
         selectProps={{
           value: address,
           onChange: (newValue) => {
@@ -158,8 +179,7 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
         }}
       />
       <S.ErrorField>{addressError}</S.ErrorField>
-
-      <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY || ''} libraries={['places']} language="en">
+      <APIProvider apiKey={VITE_APP_GOOGLE_MAPS_KEY!} libraries={['places']} language="en">
         <Map
           style={{ width: '100%', height: '300px', marginBottom: '15px' }}
           defaultCenter={{ lat: centerLat, lng: centerLng }}
@@ -168,42 +188,11 @@ export default function ListingForm({ modalCloseHandler }: IListingFormProps) {
           gestureHandling="greedy"
           disableDefaultUI
           mapId="small-map"
-          onClick={async (e) => {
-            if (e.detail.latLng?.lat && e.detail.latLng?.lng) {
-              setLat(e.detail.latLng?.lat.toString());
-              setLon(e.detail.latLng?.lng.toString());
-
-              try {
-                const response = await geocodeByLatLng({
-                  lat: e.detail.latLng?.lat,
-                  lng: e.detail.latLng.lng,
-                });
-
-                const foundPlace =
-                  response.find((item) => item.types.includes('premise')) ||
-                  response.find((item) => item.types.includes('administrative_area_level_2')) ||
-                  response.find((item) => item.types.includes('administrative_area_level_1')) ||
-                  response[0];
-
-                setAddress({
-                  label: foundPlace.formatted_address || '',
-
-                  value: {
-                    place_id: foundPlace.place_id || '',
-                  },
-                });
-
-                setAddressError(null);
-              } catch (error) {
-                setAddressError(getErrorMessage(error));
-              }
-            }
-          }}
+          onClick={smallMapClickHandler}
         >
           {lat && lon ? <AdvancedMarker position={{ lat: Number(lat), lng: Number(lon) }} /> : null}
         </Map>
       </APIProvider>
-
       <S.Button className={isLoading ? 'loading' : ''} type="submit">
         Submit
       </S.Button>

@@ -3,9 +3,24 @@ import placeholderImage from '../../assets/placeholder-image.jpeg';
 import * as S from './MobileListingCardListItem.styled';
 import { useListings } from '../../hooks';
 
-export default function ListingCardListItem({ name, id, description, address, price, image }: any) {
-  const [imageUrl, setImageUrl] = useState(image || placeholderImage);
+interface IMobileListingCardListItemProps {
+  name: string;
+  id: string;
+  description: string;
+  address: string;
+  price: number;
+  image: string;
+}
 
+export default function MobileListingCardListItem({
+  name,
+  id,
+  description,
+  address,
+  price,
+  image,
+}: IMobileListingCardListItemProps) {
+  const [imageUrl, setImageUrl] = useState(image || placeholderImage);
   const { currentListingHandler } = useListings();
 
   return (
@@ -16,7 +31,7 @@ export default function ListingCardListItem({ name, id, description, address, pr
     >
       <S.ImageContainer>
         <img
-          src={imageUrl}
+          src={imageUrl || placeholderImage}
           alt={name}
           onError={() => {
             setImageUrl(placeholderImage);

@@ -8,12 +8,9 @@ import * as S from './Header.styled';
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { searchQueryHandler } = useListings();
-
   const debouncedSearchQueryHandler = useDebounceCallback(searchQueryHandler, 500);
   const modalOpenHandler = () => {
-  
     setIsModalOpen(true);
   };
 

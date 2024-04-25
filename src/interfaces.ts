@@ -2,7 +2,7 @@ interface IListingData {
   name: string;
   description: string;
   address: string;
-  price: string;
+  price: number;
   image: string;
   lat: number;
   lon: number;

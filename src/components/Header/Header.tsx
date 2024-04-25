@@ -22,12 +22,17 @@ export default function Header() {
 
   return (
     <S.Wrapper>
-      <input
-        type="text"
-        onChange={(e) => {
-          debouncedSearchQueryHandler(e.target.value);
-        }}
-      />
+      <S.SearchbarContainer>
+        <S.Searchbar
+          type="text"
+          placeholder="Search by name and description"
+          onChange={(e) => {
+            debouncedSearchQueryHandler(e.target.value);
+          }}
+        />
+        <S.SearchbarIcon />
+      </S.SearchbarContainer>
+
       <S.Button type="button" onClick={modalOpenHandler}>
         Create listing <FaPlus />
       </S.Button>

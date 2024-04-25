@@ -5,8 +5,10 @@ export const Wrapper = styled.div`
 `;
 
 export const Main = styled.main`
-  height: calc(100% - 60px);
-
+  height: calc(100% - 112px);
   display: flex;
   position: relative;
+  @media screen and (min-width: 480px) {
+    height: calc(100% - 60px);
+  }
 `;

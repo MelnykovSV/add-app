@@ -27,11 +27,7 @@ export default function ListingCardListItem({ name, id, description, address, pr
 
       <S.Title>{name} </S.Title>
       <TruncateMarkup lines={3}>
-        <S.Paragraph>
-          {description} test add descriptiontest add descriptiontest add descriptiontest add
-          descriptiontest add descriptiontest add descriptiontest add descriptiontest add
-          descriptiontest add descriptiontest add description
-        </S.Paragraph>
+        <S.Paragraph>{description}</S.Paragraph>
       </TruncateMarkup>
 
       <S.Address>{address}</S.Address>

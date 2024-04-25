@@ -50,7 +50,6 @@ export function ListingsProvider({ children }: IListingsProviderProps) {
 
   const searchQueryHandler = (query: string) => {
     setSearchQuery(query);
-    console.log(query);
   };
 
   const refreshListingsData = useCallback(async () => {

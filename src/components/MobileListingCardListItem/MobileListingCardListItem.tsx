@@ -26,11 +26,7 @@ export default function ListingCardListItem({ name, id, description, address, pr
 
       <S.InfoBlock>
         <S.Title>{name} </S.Title>
-        <S.Paragraph>
-          {description} test add descriptiontest add descriptiontest add descriptiontest add
-          descriptiontest add descriptiontest add descriptiontest add descriptiontest add
-          descriptiontest add descriptiontest add description
-        </S.Paragraph>
+        <S.Paragraph>{description}</S.Paragraph>
 
         <S.Address>{address}</S.Address>
         <S.Price>{`${price} $`}</S.Price>

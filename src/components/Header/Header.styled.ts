@@ -1,13 +1,29 @@
 import styled from '@emotion/styled';
 import Box from '@mui/material/Box';
+import { FaSearch } from 'react-icons/fa';
 
 export const Wrapper = styled.header`
   background-color: rgb(40, 49, 73);
+  padding-left: 15px;
+  padding-right: 15px;
+  /* padding-top: 9px;
+  padding-bottom: 9px; */
+  height: 112px;
   display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  justify-content: center;
+  column-gap: 20px;
+  row-gap: 10px;
   align-items: center;
-  height: 60px;
+  /* height: 60px; */
   p {
     margin: 0;
+  }
+
+  @media screen and (min-width: 480px) {
+    flex-direction: row;
+    height: 60px;
   }
 `;
 
@@ -46,4 +62,38 @@ export const Button = styled.button`
   &:hover {
     background-color: #085d1c;
   }
+`;
+
+export const SearchbarContainer = styled.div`
+  position: relative;
+  width: 100%;
+
+  @media screen and (min-width: 480px) {
+    width: fit-content;
+  }
+`;
+
+export const Searchbar = styled.input`
+  width: 100%;
+  padding: 9px 37px 9px 15px;
+  border: none;
+  border-radius: 4px;
+  line-height: 1.5;
+
+  @media screen and (min-width: 480px) {
+    width: 250px;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 400px;
+  }
+`;
+
+export const SearchbarIcon = styled(FaSearch)`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
 `;
